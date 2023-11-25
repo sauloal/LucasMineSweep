@@ -72,13 +72,13 @@ function addClickEvents(element, num_rows, num_cols, num_bombs) {
 
     let markCellTo = function(ev, el) {
         console.warn("TOUCH: MARK");
-        document.getElementById("mod").innerHTML = "TOUCH: MARK";
+        // document.getElementById("mod").innerHTML = "TOUCH: MARK";
         markCell(ev, el);
     };
 
     let markCellCM = function(ev, el) {
         console.warn("CONTEXT: MARK");
-        document.getElementById("mod").innerHTML = "CONTEXT: MARK";
+        // document.getElementById("mod").innerHTML = "CONTEXT: MARK";
         markCell(ev, el);
     };
     
@@ -305,9 +305,55 @@ function markBomb(element) {
 }
 
 function processForm() {
-    let num_rows = parseInt(document.getElementById("num_rows").value);
-    let num_cols = parseInt(document.getElementById("num_cols").value);
-    let num_bombs = parseInt(document.getElementById("num_bombs").value);
+    let num_rows_el = document.getElementById("num_rows");
+    let num_cols_el = document.getElementById("num_cols");
+    let num_bombs_el = document.getElementById("num_bombs");
+
+    let num_rows_max = parseInt(num_rows_el.getAttribute("max"));
+    let num_cols_max = parseInt(num_cols_el.getAttribute("max"));
+    let num_bombs_max = parseInt(num_bombs_el.getAttribute("max"));
+
+    let num_rows_min = parseInt(num_rows_el.getAttribute("min"));
+    let num_cols_min = parseInt(num_cols_el.getAttribute("min"));
+    let num_bombs_min = parseInt(num_bombs_el.getAttribute("min"));
+
+    let num_rows = parseInt(num_rows_el.value);
+    let num_cols = parseInt(num_cols_el.value);
+    let num_bombs = parseInt(num_bombs_el.value);
+    let num_cells = num_rows * num_cols;
+
+    if (num_rows > num_rows_max) {
+        alert("invalid number of rows. Max: "+num_rows_max);
+        return;
+    }
+    if (num_rows < num_rows_min) {
+        alert("invalid number of rows. Min: "+num_rows_min);
+        return;
+    }
+
+    if (num_cols > num_cols_max) {
+        alert("invalid number of columns. Max: "+num_cols_max);
+        return;
+    }
+    if (num_cols < num_cols_min) {
+        alert("invalid number of columns. Min: "+num_cols_min);
+        return;
+    }
+
+    if (num_bombs > num_bombs_max) {
+        alert("invalid number of bombs. Max: "+num_bombs_max);
+        return;
+    }
+    if (num_bombs < num_bombs_min) {
+        alert("invalid number of bombs. Min: "+num_bombs_min);
+        return;
+    }
+
+    if (num_bombs >= num_cells) {
+        alert("invalid number of bombs. Max: "+num_cells);
+        return;
+    }
+
     pupulateGame("game", num_rows, num_cols, num_bombs);
 }
 
