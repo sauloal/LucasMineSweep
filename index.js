@@ -80,7 +80,7 @@ function pupulateGame(destinationId, num_rows, num_cols, num_bombs) {
             element.setAttribute("col", col);
 
             element.onclick = function(ev) { checkForBombs(ev, this, num_rows, num_cols, num_bombs) };
-            ['contextmenu', 'ontouchstart', 'touchstart'].forEach( evt =>
+            ['contextmenu', 'touchstart'].forEach( evt =>
                 element.addEventListener(evt, function(ev) {
                     ev.preventDefault();
                     // console.log("this", this);
