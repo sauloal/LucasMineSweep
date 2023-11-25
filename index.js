@@ -80,14 +80,16 @@ function pupulateGame(destinationId, num_rows, num_cols, num_bombs) {
             element.setAttribute("col", col);
 
             element.onclick = function(ev) { checkForBombs(ev, this, num_rows, num_cols, num_bombs) };
-            element.addEventListener('contextmenu', function(ev) {
-                ev.preventDefault();
-                // console.log("this", this);
-                // console.log("ev", ev);
-                // alert('right click!');
-                markBomb(this);
-                return false;
-            }, false);
+            ['contextmenu', 'ontouchstart'].forEach( evt =>
+                element.addEventListener(evt, function(ev) {
+                    ev.preventDefault();
+                    // console.log("this", this);
+                    // console.log("ev", ev);
+                    // alert('right click!');
+                    markBomb(this);
+                    return false;
+                }, false)
+            );
 
             if (bombs_locations.includes(cell_id)) {
                 console.log("BOMB");
