@@ -1,0 +1,58 @@
+<html>
+    <header>
+        <style>
+            td {
+                border-color: black;
+                border: 1px solid;
+                min-width: 50px;
+                min-height: 50px;
+                width: 50px;
+                height: 50px; 
+            }
+            .notClicked {
+                background-color: darkgray;
+                color: darkgray;
+            }
+            .clicked {
+                background-color: lightgray;
+                color: blue;
+            }
+            .isMarked:before {
+                content: "X";
+                color: white;
+            }
+            .isQuestion:before {
+                content: "?";
+                color: white;
+            }
+            .isBomb:before {
+                content: "BOMB";
+            }
+            .isBomb .isMarked:before {
+                color: black;
+            }
+            .isNeighbourToBomb:before {
+                content: attr(numberNeighbourBombs);
+            }
+        </style>
+
+        <title>Lucas' Mine Sweeper</title>
+    </header>
+
+    <body>
+        <h1>Lucas' Mine Sweeper</h1>
+
+        <label for="num_rows">Number or rows</label><input id="num_rows" type="number" value="5" min="3" max="25"/><br/>
+        <label for="num_cols">Number or columns</label><input id="num_cols" type="number" value="5" min="3" max="25"/><br/>
+        <label for="num_bombs">Number or bombs</label><input id="num_bombs" type="number" value="4" min="1" max="25"/><br/>
+        <button id="pupulate" onclick="processForm()">Create</button>
+
+        <h3>New Game</h3>
+
+        <div id="game"></div>
+    </body>
+
+    <footer>
+        <script src="index.js"></script>
+    </footer>
+</html>
