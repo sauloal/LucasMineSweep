@@ -58,6 +58,54 @@ function createRandomBombs(bombs_locations, num_rows, num_cols, num_bombs){
     }
 }
 
+function addClickEvents(element, num_rows, num_cols, num_bombs) {
+    element.onclick = function(ev) { checkForBombs(ev, this, num_rows, num_cols, num_bombs); };
+
+    let markCell = function(ev, el) {
+        ev.preventDefault();
+        // console.log("this", this);
+        // console.log("ev", ev);
+        // alert('right click!');
+        markBomb(el);
+        return false;
+    };
+
+    let markCellTo = function(ev, el) {
+        console.warn("TOUCH: MARK");
+        document.getElementById("mod").innerHTML = "TOUCH: MARK";
+        markCell(ev, el);
+    };
+
+    let markCellCM = function(ev, el) {
+        console.warn("CONTEXT: MARK");
+        document.getElementById("mod").innerHTML = "CONTEXT: MARK";
+        markCell(ev, el);
+    };
+    
+    // https://codepen.io/eleviven/pen/eYmwzLp
+    let timer = false;
+    let duration = 800;
+
+    function touchStart(ev, el){
+        console.warn("touchStart", ev, el);
+        if (!timer) {
+            timer = setTimeout(function(){ markCellTo(ev, el); timer=false; }, duration);
+        }
+    }
+
+    function touchEnd(ev){
+        console.warn("touchEnd");
+        if (timer) {
+            clearTimeout(timer)
+            timer = false;
+        }
+    }
+
+    element.addEventListener("contextmenu", function(ev) { markCellCM(ev, element); }, false);
+    // element.addEventListener("touchstart", function(ev) { touchStart(ev, element); }, false);
+    // element.addEventListener("touchend", touchEnd, false);
+}
+
 function pupulateGame(destinationId, num_rows, num_cols, num_bombs) {
     var bombs_locations = [];
     // var bombs_locations = ['1x3', '1x2']
@@ -79,19 +127,7 @@ function pupulateGame(destinationId, num_rows, num_cols, num_bombs) {
             element.setAttribute("row", row);
             element.setAttribute("col", col);
 
-            element.onclick = function(ev) { checkForBombs(ev, this, num_rows, num_cols, num_bombs) };
-
-            ['contextmenu', 'touchend'].forEach( evt =>
-                element.addEventListener(evt, function(ev) {
-                    console.warn("CONTEXT/TOUCH: MARK");
-                    ev.preventDefault();
-                    // console.log("this", this);
-                    // console.log("ev", ev);
-                    // alert('right click!');
-                    markBomb(this);
-                    return false;
-                }, false)
-            );
+            addClickEvents(element, num_rows, num_cols, num_bombs);
 
             if (bombs_locations.includes(cell_id)) {
                 console.log("BOMB");
