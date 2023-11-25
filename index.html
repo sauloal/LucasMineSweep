@@ -17,22 +17,21 @@
                 background-color: lightgray;
                 color: blue;
             }
-            .isMarked:before {
+            .isMarked.notClicked:before {
                 content: "X";
                 color: white;
             }
-            .isQuestion:before {
+            .isQuestion.notClicked:before {
                 content: "?";
                 color: white;
             }
-            .isBomb:before {
+            .isBomb:not(.notClicked):before {
                 content: "BOMB";
-            }
-            .isBomb .isMarked:before {
                 color: black;
             }
-            .isNeighbourToBomb:before {
+            .isNeighbourToBomb:not(.notClicked):before {
                 content: attr(numberNeighbourBombs);
+                color: black;
             }
         </style>
 
@@ -54,5 +53,6 @@
 
     <footer>
         <script src="index.js"></script>
+        <small>Last modified: 2023-11-25 17:27 CET</small>
     </footer>
 </html>

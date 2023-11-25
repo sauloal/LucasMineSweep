@@ -80,8 +80,10 @@ function pupulateGame(destinationId, num_rows, num_cols, num_bombs) {
             element.setAttribute("col", col);
 
             element.onclick = function(ev) { checkForBombs(ev, this, num_rows, num_cols, num_bombs) };
-            ['contextmenu', 'touchstart'].forEach( evt =>
+
+            ['contextmenu', 'touchend'].forEach( evt =>
                 element.addEventListener(evt, function(ev) {
+                    console.warn("CONTEXT/TOUCH: MARK");
                     ev.preventDefault();
                     // console.log("this", this);
                     // console.log("ev", ev);
@@ -142,6 +144,8 @@ function pupulateGame(destinationId, num_rows, num_cols, num_bombs) {
 }
 
 function checkForBombs(ev, element, num_rows, num_cols, num_bombs) {
+    console.warn("CLICK. checkForBombs");
+
     let row     = parseInt(element.getAttribute("row"));
     let col     = parseInt(element.getAttribute("col"));
  
@@ -149,7 +153,7 @@ function checkForBombs(ev, element, num_rows, num_cols, num_bombs) {
         return;
     }
 
-    console.log("CLICKED! Checking for bombs at ", element);
+    // console.log("CLICKED! Checking for bombs at ", element);
     element.classList.remove("notClicked");
     
     if (element.classList.contains("isBomb")) {
